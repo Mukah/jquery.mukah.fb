@@ -5,6 +5,10 @@ function mukahFB(appId, channelUrl, status, xfbml) {
 	mukahFB.status = status;
 	mukahFB.xfbml = xfbml;
 
+	mukahFB.fql = function(query, callback) {
+		$.getJSON('https://api.facebook.com/method/fql.query?format=json&query=' + encodeURIComponent(query), callback);
+	};
+
 	this.ready = function(callback) {
 		window.fbAsyncInit = function() {			
 			FB.init({
@@ -13,12 +17,6 @@ function mukahFB(appId, channelUrl, status, xfbml) {
 				status: mukahFB.status,
 				xfbml: mukahFB.xfbml
 			});
-
-			$.prototype.fgLoginStatus = function() {
-				FB.getLoginStatus(function(response) {
-					return response;
-				});
-			}
 
 			$.prototype.fbLogin = function(success, fail) {
 				this.click(function(){
@@ -40,6 +38,10 @@ function mukahFB(appId, channelUrl, status, xfbml) {
 				})
 			}
 
+			mukahFB.loginStatus = function(callback) {
+				FB.getLoginStatus(callback);
+			}
+
 			callback();
 		};
 
@@ -51,5 +53,5 @@ function mukahFB(appId, channelUrl, status, xfbml) {
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 	}
-
 }
+

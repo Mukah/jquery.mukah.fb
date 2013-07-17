@@ -6,24 +6,33 @@
 	<script>
 		var fb = new mukahFB('420640421382805', 'channel.html', true, true);
 		fb.ready(function(){
+			
 			$('.fb-login').fbLogin(
 				// success
 				function(response){
-					var uid = response.authResponse.userID;
-					var fql = "SELECT first_name, email, contact_email FROM user WHERE uid = '" + uid + "'";
-					$.getJSON('https://api.facebook.com/method/fql.query?format=json&query=' + encodeURIComponent(fql), function(user) {
-						alert(user[0].contact_email);
+					mukahFB.fql("SELECT first_name FROM user WHERE uid = '" + response.authResponse.userID + "'", function(user) {
+						alert(user[0].first_name);
 					});
 				},
 				// fail
 				function(response){
-
+					console.log(response);
 				}
 			);
+
+			$('.fb-logout').fbLogout(function(response){
+				console.log(response);
+			});
+
+			mukahFB.loginStatus(function(response){
+				alert(response.status);
+				console.log(response);
+			})
 		})
 	</script>
 </head>
 <body>
-	<a href="#" class="fb-login">Entrar</a>
+	<a href="#" class="fb-login">Login</a>
+	<a href="#" class="fb-logout">Logout</a>
 </body>
 </html>

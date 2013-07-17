@@ -1,0 +1,29 @@
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="jquery.mukah.fb.js"></script>
+	<script>
+		var fb = new mukahFB('420640421382805', 'channel.html', true, true);
+		fb.ready(function(){
+			$('.fb-login').fbLogin(
+				// success
+				function(response){
+					var uid = response.authResponse.userID;
+					var fql = "SELECT first_name, email, contact_email FROM user WHERE uid = '" + uid + "'";
+					$.getJSON('https://api.facebook.com/method/fql.query?format=json&query=' + encodeURIComponent(fql), function(user) {
+						alert(user[0].contact_email);
+					});
+				},
+				// fail
+				function(response){
+
+				}
+			);
+		})
+	</script>
+</head>
+<body>
+	<a href="#" class="fb-login">Entrar</a>
+</body>
+</html>
